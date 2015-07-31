@@ -10,7 +10,6 @@ void printDuplicates(string s)
   // If there are less than 2 characters, there is no repetition
   if (n < 2)
   {
-    //nothing to print
     return;
   }
   
