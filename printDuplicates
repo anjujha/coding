@@ -1,0 +1,48 @@
+#include <iostream>
+#include <unordered_map>
+
+using namespace std;
+
+void printDuplicates(string s)
+{
+  
+  int n = s.length();
+  // If there are less than 2 characters, there is no repetition
+  if (n < 2)
+  {
+    //nothing to print
+    return;
+  }
+  
+  unordered_map< char, int> map;  
+  for (char c: s)
+  {    
+    if (map.find(c) == map.end())
+    {
+      map.insert({c,1});
+    }
+    else
+    {
+    // c++ unordered_map.insert only inserts the element when the key is unique (unlike Java Map put)
+    // so use assignment operator here
+      map[c] = map[c]+1;;
+    }
+  }
+  
+  for (auto itr : map)
+  {
+    if (itr.second  > 1)
+      cout << itr.first << endl;    
+  }
+}
+
+
+// To execute C++, please define "int main()"
+
+int main() {
+  for (int i = 0; i < 5; i++) {
+    cout << "Hello, World\n";
+  }
+  printDuplicates("javaaaabbggcCttttt");
+  return 0;
+}
