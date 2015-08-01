@@ -1,0 +1,35 @@
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+
+
+bool isNumberAPrime(int num)
+{
+    
+  int arr[num+1];
+  std::fill(arr, arr+num+1, 1);  
+  
+  // Sieving method
+  for (int i = 2 ; i < num; ++i )
+  {      
+      for (int j = 2 ; i*j <= num; ++j )
+      {        
+        arr[(i*j)] = 0;
+      }     
+  }
+
+  return arr[num];
+  
+}
+
+
+// To execute C++, please define "int main()"
+
+int main() {
+
+  cout <<"Is the number prime? " << isNumberAPrime(17);
+ return 0;
+
+}
