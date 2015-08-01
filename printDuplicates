@@ -39,9 +39,6 @@ void printDuplicates(string s)
 // To execute C++, please define "int main()"
 
 int main() {
-  for (int i = 0; i < 5; i++) {
-    cout << "Hello, World\n";
-  }
   printDuplicates("javaaaabbggcCttttt");
   return 0;
 }
