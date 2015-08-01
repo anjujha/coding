@@ -1,0 +1,176 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <string>
+#include <stack>
+using namespace std;
+
+
+
+
+// Permutations using recursion
+string insertCharAt(char c, int id, string s)
+{
+  string op;
+  
+  if (id != 0)
+  {
+      string sub1 = s.substr(0, id);
+      op = sub1;
+  }
+  op += c + s.substr(id, s.length()-id);
+  return op;
+}
+
+
+vector<string> permutations1(string s)
+{
+  
+  vector<string> op;
+  
+  int n = s.length();
+  
+  if (n == 0 )
+    return op;
+  
+  if ( n == 1)
+  {
+    op.push_back(s);
+    return op;
+  }
+  
+  vector<string> res = permutations1(s.substr(1));
+  
+  for (uint i = 0; i < res.size(); i++)
+  {
+    for (uint j = 0; j < s.length(); j++)
+    {
+   
+    string r = insertCharAt(s.at(0), j, res.at(i));
+    op.push_back(r);
+    }
+  }
+  
+  return op;
+}
+
+
+// Permutation using Backtracking
+void permutations2(string s, int i, int j, vector<string>& op)
+{
+  
+  int n = s.length();
+  
+  if (n == 0)
+    return ;
+  
+  if ( n == 1 ||
+      i == j)
+  {
+    op.push_back(s);
+    return ;
+  }
+  
+  
+  for (int k = i; k <= j ; k++)
+  {
+    swap(s.at(i), s.at(k));
+    cout << "Swapping " << s.at(i) <<" and "<<s.at(k) << endl;
+    permutations2(s, i+1, j, op);
+    swap(s.at(i), s.at(k));
+  }
+    
+}
+
+
+// Permutation without using recursion
+vector<string> permutations3(string s)
+{
+  
+
+  int n = s.length();
+  vector<string> result;
+  if (n == 0)
+    return result;
+    
+ // Push all but the first char on stack
+  stack<char> stack1;  
+  for (int i = 0 ; i < n-1 ; ++i)
+  {
+     stack1.push(s.at(i));
+  }
+  
+  string x = s.substr(n-1,1);
+  result.push_back(x);
+  
+  while (!stack1.empty())
+  {
+    char c = stack1.top();
+    stack1.pop();
+    uint rn = result.size();
+    for (uint  i = 0 ; i < rn; i++)
+    {
+      string res1 = result.at(i);
+      for (uint j = 0 ; j <= res1.length(); j++)
+      {
+        string r = insertCharAt(c, j, res1);
+        result.push_back(r);
+      }
+    
+    }
+    result.erase(result.begin(), result.begin()+rn);      
+  }
+    
+    
+    return result;
+  
+  
+  
+  
+}
+// To execute C++, please define "int main()"
+
+int main() {
+  
+  string s = "xyz";  
+  vector<string> res1 = permutations1(s);  
+  cout << "Permutations for " << s << endl;  
+  for (uint i = 0; i < res1.size(); i++)
+  {
+      cout << res1.at(i) << endl;
+  }
+  
+  s = "ab";  
+  res1 = permutations1(s);  
+  cout << "Permutations for " << s << endl;
+  for (uint i = 0; i < res1.size(); i++)
+  {
+      cout << res1.at(i) << endl;
+  }
+  
+  
+  
+  s = "abc";  
+  res1.clear();
+  permutations2(s, 0 , s.length()-1, res1);  
+  cout << "Permutations for " << s << endl;
+  for (uint i = 0; i < res1.size(); i++)
+  {
+      cout << res1.at(i) << endl;
+  }
+  
+  
+  
+  s = "ab";  
+  
+  res1 = permutations3(s);  
+  cout << "Permutations for " << s << endl;
+  for (uint i = 0; i < res1.size(); i++)
+  {
+      cout << res1.at(i) << endl;
+  }
+  
+
+  return 0;
+
+}
