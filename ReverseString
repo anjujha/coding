@@ -1,0 +1,51 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+
+
+void  reverse1(string s)
+{
+  int n = s.length(); 
+  
+  for (int i = 0 ; i <n/2; i++)
+  {
+    swap(s.at(i), s.at(n-(i+1)));
+  }
+  cout << s << endl;
+
+}
+
+string reverse2(string s)
+{
+    int n = s.length(); 
+    if (n == 0)
+      return "";
+    if (n == 1)
+      return s;
+
+  return reverse2(s.substr(1)) + s.at(0);
+
+}
+
+
+
+// To execute C++, please define "int main()"
+
+int main() {
+
+  cout << "Method 1" << endl;
+
+  reverse1("babywipes");
+  reverse1("interview");
+  reverse1("");
+  cout << "Method 2" << endl;
+  
+  cout << reverse2("sotough") << endl;
+  cout << reverse2("notsomuch") << endl;
+  reverse2("");
+  
+ return 0;
+
+}
