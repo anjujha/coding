@@ -4,8 +4,8 @@
 using namespace std;
 
 
-
-void  reverse1(string s)
+// Reverse using iteration
+void reverse1(string s)
 {
   int n = s.length(); 
   
@@ -16,7 +16,7 @@ void  reverse1(string s)
   cout << s << endl;
 
 }
-
+// Reverse using recursion
 string reverse2(string s)
 {
     int n = s.length(); 
