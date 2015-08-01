@@ -50,10 +50,10 @@ char firstNonRepeatedChar2(string s)
 
     }
   
-  for (auto itr: map)
+  for (auto c: s)
   {
-    if (itr.second == 1)
-      return itr.first;
+    if (map[c] == 1)
+      return c;
   }
   return 0;
   
