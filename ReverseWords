@@ -1,0 +1,76 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+// To execute C++, please define "int main()"
+
+
+void trim( string& s)                 
+{
+  uint begin = 0;
+  uint n = s.length();
+  uint end = n-1;
+  
+  while (begin < n && s[begin] == ' ' )
+  {
+    begin++;
+  }
+  
+  // The string is empty
+  if (begin == n)
+  {
+    s = "";
+    return;
+  }
+    
+  
+  while (end > 1 && s[end] == ' ')
+  {
+    end--;
+  }
+ 
+  s = s.substr(begin, end-begin+1);
+}
+
+  
+void reverseWords(string &s) {
+       
+
+     int n = s.length();
+  
+      trim(s);
+      s.append(" ");
+      n = s.length();
+
+      string result = "";
+      string word = "";
+ 
+      for (int i = 0; i < n ; i++ )
+      {
+        
+          
+          if (s.substr(i,1).compare(" ") != 0)
+          {
+            word += s[i];           
+           
+          }
+          else if (!word.empty())
+          {
+            result = word +" "+ result;
+            word  = "";
+          }
+        
+          
+      }  
+  
+      s = result.substr(0, result.length()-1);
+
+}      
+      
+int main() {
+  
+  string s=" ab ch djj";
+  reverseWords(s);
+  cout << "Answer is ."<< s <<"."<< endl;
+  return 0;
+}
