@@ -1,0 +1,63 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        
+        vector < vector<int> > output;
+        
+        if (target == 0)
+        {
+          return output;
+        }
+       
+        sort(candidates.begin(), candidates.end());  
+        int i = 0;
+        for (auto itr: candidates)
+        {
+          
+          int value = itr;     
+          
+
+          if (value < target)
+          {
+            vector<int> candidates1 (candidates.begin()+i, candidates.end());
+            
+            i++;
+            vector< vector<int> > t =combinationSum(candidates1, target-value);
+            for (auto titr: t)
+            {
+              vector<int> res = titr;
+              res.insert(res.begin(), value);
+              output.push_back(res);
+            }
+          }
+          else if(value == target)
+          {
+            vector<int> r = {value};
+            output.push_back(r);
+          }
+        
+        }
+       
+        return output;
+    }
+
+int main() {
+  vector <int > c = {2,3,6,7};
+  int t = 7;
+ vector < vector<int> > v = combinationSum(c, t);
+  for (auto itr: v)
+  {
+    cout << "->\n";
+   for (auto itr1 : itr)
+   {
+     cout << itr1 << endl;
+   }
+    
+  }
+  
+  //cout << "Answer is ."<< s <<"."<< endl;
+  return 0;
+}
