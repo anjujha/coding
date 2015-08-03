@@ -1,0 +1,130 @@
+#include <iostream>
+#include <unordered_map>
+#include <map>
+using namespace std;
+
+class LRUCache{
+public:
+    
+    unordered_map<int, int> keyVal;
+    unordered_map<int, int> keyLRU;
+    map<int, int> LRUKey;
+    int counter;
+    int maxcap;
+    LRUCache(int capacity) {
+      maxcap = capacity;     
+      
+      counter  = 0;
+    }
+    
+    
+    
+    int get(int key) {
+        
+        if ( keyVal.find(key) != keyVal.end())
+        {
+            LRUKey.erase(keyLRU[key]);
+            int newLRU = ++counter;
+            LRUKey.insert({newLRU, key});
+            keyLRU[key] = newLRU;
+            return keyVal[key];
+        }
+        else
+            return -1;
+    }
+    
+    char set(int key, int value) {
+        
+       if ( keyVal.find(key) != keyVal.end())
+        {
+            
+            int curLRU = keyLRU[key];
+            LRUKey.erase(curLRU);
+            int newLRU = ++counter;
+            LRUKey.insert({newLRU, key});
+            keyLRU[key] = newLRU;
+            keyVal[key] = value;
+          
+        }
+        else
+        {
+          
+            // The key doesn't exists
+            if (keyVal.size() == maxcap)
+            {
+                // find the key corresponding to LRU item
+                auto it = LRUKey.begin();
+                int keyToRemove = it->second;
+              cout << "keytorem " << keyToRemove << endl;
+                LRUKey.erase(it);
+                keyVal.erase(keyVal.find(keyToRemove));
+                keyLRU.erase(keyLRU.find(keyToRemove));
+            }
+            
+            int newLRU = ++counter;
+            keyVal.insert({key,value});
+            LRUKey.insert({newLRU, key});
+            keyLRU.insert({key, newLRU});
+            
+        }
+      return '*';
+        
+    }
+};
+
+int main() {
+
+  
+  LRUCache LRU(10);
+  LRU.set(10,13);
+  LRU.set(3,17);
+  LRU.set(6,11);
+  LRU.set(10,5);
+  LRU.set(9,10);
+  cout << LRU.get(13) << endl;
+  LRU.set(2,19);
+  cout << LRU.get(2) << endl;
+  cout << LRU.get(3) << endl;
+  LRU.set(5,25); 
+  cout << LRU.get(8)<< endl; 
+  cout <<LRU.set(9,22)<< endl; 
+  cout <<LRU.set(5,5)<< endl; 
+  cout <<LRU.set(1,30)<< endl; 
+  cout <<LRU.get(11)<< endl; 
+  cout <<LRU.set(9,12)<< endl; 
+  cout <<LRU.get(7)<< endl; 
+  cout <<LRU.get(5)<< endl;
+  cout <<LRU.get(8)<< endl;
+  cout <<LRU.get(9)<< endl;
+  cout <<LRU.set(4,30)<< endl;
+  cout <<LRU.set(9,3)<< endl; 
+  cout <<LRU.get(9)<< endl;
+  cout <<LRU.get(10)<< endl;
+  cout <<LRU.get(10)<< endl; 
+  cout <<LRU.set(6,14)<< endl;
+  cout <<LRU.set(3,1)<< endl;
+  cout <<LRU.get(3)<< endl;
+  cout <<LRU.set(10,11)<< endl;
+  cout <<LRU.get(8)<< endl; 
+  cout <<LRU.set(2,14)<< endl; 
+  cout <<LRU.get(1)<< endl;
+  cout <<LRU.get(5)<< endl; 
+  cout << LRU.get(4)<< endl;
+  cout <<LRU.set(11,4)<< endl;
+  cout <<LRU.set(12,24)<< endl; 
+  cout <<LRU.set(5,18)<< endl; 
+  cout <<LRU.get(13)<< endl; 
+  cout <<LRU.set(7,23)<< endl;
+  cout <<LRU.get(8)<< endl; 
+  cout <<LRU.get(12)<< endl;
+  cout <<LRU.set(3,27)<< endl;
+  cout <<LRU.set(2,12)<< endl; 
+  cout <<LRU.get(5)<< endl; 
+  cout <<LRU.set(2,9)<< endl;
+  cout <<LRU.set(13,4)<< endl;
+  cout <<LRU.set(8,18)<< endl;
+  cout <<LRU.set(1,7)<< endl;
+  cout <<LRU.get(6);
+  cout <<LRU.set(9,29); 
+  cout <<LRU.set(8,21);
+}
