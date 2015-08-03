@@ -1,0 +1,61 @@
+#include <iostream>
+#include <locale> // toupper
+#include <string>
+#include <vector>
+#include <math.h> // pow
+using namespace std;
+
+// Is the jth bit set in i
+bool isBitSet(int i, int j)
+{
+ 
+  int t = 1 << j;
+  return ( t & i );
+  
+}
+
+// Input is lower case
+vector<string> upperLowerPermutation(string s )
+{
+  vector <string> result;
+
+  int max = pow(2, s.length())-1;
+  for (int i = max ; i >= 0; i--)
+  {
+    string t = s;
+    for (uint j = 0 ; j < s.length(); j++)
+    {      
+      isBitSet(i,j) ? t[j] = toupper(t[j]) : t[j] = t[j];
+    }
+    result.push_back(t);
+  }
+  return result;
+}
+
+int main() {
+
+  string s = "abc";
+  vector <string> v = upperLowerPermutation(s);
+  cout << "Result for " << s << endl;
+  for ( auto itr: v)
+  {
+    cout << itr << endl;
+  }
+  s = "a";
+  v = upperLowerPermutation(s);
+  cout << "Result for " << s << endl;
+  for ( auto itr: v)
+  {
+    cout << itr << endl;
+  }
+  s = "ab";
+  v = upperLowerPermutation(s);
+  cout << "Result for " << s << endl;
+  for ( auto itr: v)
+  {
+    cout << itr << endl;
+  }
+  
+  
+
+}
