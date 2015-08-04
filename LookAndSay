@@ -1,0 +1,49 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+// To execute C++, please define "int main()"
+string lookAndSay(string s)
+{
+  string result = "";
+  uint n = s.length();
+  
+  if (n == 0)
+    return result;
+  
+  char t = s[0];  
+  int count = 1;
+  
+  for (uint i = 1; i < n; i++)
+  {
+    if (t == s[i])
+    {
+      count++;
+    }
+    else
+    {     
+      result += t + to_string(count);
+      count = 1;
+      t = s[i];
+    }
+  }
+  // last character
+  result += t + to_string(count);
+  
+  // return new string only if it is shorter
+  if (result.length() >= n)
+    return s;
+  else
+    return result;
+  
+}
+
+int main() {
+
+  cout << lookAndSay("112223331144") << endl;
+  cout << lookAndSay("12") << endl;
+  cout << lookAndSay("112222") << endl;
+  cout << lookAndSay("") << endl;
+  cout << lookAndSay("444444444444444444444") << endl;
+  return 0;
+}
