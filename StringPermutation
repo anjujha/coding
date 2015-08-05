@@ -93,7 +93,7 @@ vector<string> permutations3(string s)
   if (n == 0)
     return result;
     
- // Push all but the first char on stack
+ // Push all but the last char on stack
   stack<char> stack1;  
   for (int i = 0 ; i < n-1 ; ++i)
   {
