@@ -1,0 +1,65 @@
+ int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+        
+        int gasListSize = gas.size();
+        int costListSize = cost.size();
+        
+        // data validation
+        if (gasListSize != costListSize)
+        {
+            return -1;
+        }
+        
+        int costSum = 0;
+        for (int i = 0 ; i < costListSize; i++)
+        {
+            costSum += cost.at(i);
+        }
+        
+        int gasSum = 0;
+        for (int i = 0 ; i < gasListSize; i++)
+        {
+            gasSum += gas.at(i);
+        }
+        
+        if (costSum > gasSum)
+        return -1;
+        
+        // 2 5, 3 4
+        int startIndex = 0;
+        int diff = 0;
+        for (int i = 0 ; i < gasListSize; i++)
+        {
+            int diffAtThisPoint = (gas.at(i) - cost.at(i));
+            // If the difference is greater than 1
+            // determine if you are on a good path already or you should start here?
+            if (diffAtThisPoint > 0)
+            {
+                if (diff > 0)
+                {
+                    diff = diff + diffAtThisPoint;
+                }
+                else
+                {
+                    diff = diffAtThisPoint;
+                    startIndex = i;
+                }
+            }
+            else
+            {
+               // this point cannot be the starting index..
+               // if adding this value to the diff so far doesnt make the diff go below 0, dont change the startIndex 
+               if (diff + diffAtThisPoint >= 0)
+               {
+                   diff = diff + diffAtThisPoint;
+               }
+               // whatever path we have till now needs to be invalidated
+               else
+               {
+                   startIndex = i+1;
+                   diff = 0;
+               }
+               
+            }
+        }
+        return startIndex;
+    }
