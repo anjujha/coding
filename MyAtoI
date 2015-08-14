@@ -1,0 +1,55 @@
+
+	
+bool isCharValidNumber(char c)
+{
+	if (c <= '9' && c >= '0')
+        return true;
+	else
+	    return false;
+}
+
+int myAtoi(string s) {
+
+	if (s.empty()) return 0;
+
+    const char whiteSpace = ' ';
+	int stringIndex = 0;
+	while ( s[stringIndex] == whiteSpace) 
+	{
+	  stringIndex++;	
+	}
+	
+    const char minusSign = '-';
+    const char sign = '+';	
+	bool isNegativeSignedNumber = (s[stringIndex] == minusSign) ? true: false;
+	bool isSignedNumber = (s[stringIndex] == sign) ? true: false;
+
+	if (isNegativeSignedNumber ||
+		isSignedNumber 	)
+	stringIndex++;
+
+
+    double convertedNumber= 0;
+    for (stringIndex; stringIndex < s.length(); stringIndex++)
+    {
+           if (isCharValidNumber(s[stringIndex]))
+           {
+               convertedNumber = convertedNumber*10 + (s[stringIndex] - '0');
+           }
+           else
+            break;
+    }       
+    if (isNegativeSignedNumber)
+    convertedNumber = convertedNumber*-1;
+
+    if (convertedNumber > INT_MAX)
+    {
+        return INT_MAX;
+    }
+    else if (convertedNumber < INT_MIN)
+    {
+        return INT_MIN;
+    }
+    
+    return convertedNumber;       
+    }
