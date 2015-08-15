@@ -1,0 +1,59 @@
+class Solution {
+public:
+
+
+bool searchAdjacentCells(vector<vector<char>>& board, string word, int wordPosition, int rowIndex, int columnIndex)
+{
+        return (search(board, word, wordPosition, rowIndex, columnIndex+1) )||
+        (search(board, word, wordPosition, rowIndex+1, columnIndex) ) ||
+        (search(board, word, wordPosition, rowIndex-1, columnIndex) ) ||
+        (search(board, word, wordPosition, rowIndex, columnIndex-1));
+}
+bool search( vector<vector<char>>& board, string word, int wordPosition, int rowIndex, int columnIndex)
+{
+    
+    int maxRows = board.size();
+    int maxColumns = board[0].size();
+
+    if (rowIndex < 0 || rowIndex >= maxRows)
+        return false;
+        
+    if (columnIndex < 0 || columnIndex >= maxColumns)
+        return false;
+    
+    int wordSize = word.length();
+    char letterToSearch = word[wordPosition];
+    
+    if (board[rowIndex][columnIndex] == letterToSearch)
+    {
+        if (wordPosition == wordSize-1)
+            return true;
+        
+        // assign a special char so that we don't consider this position again in this search
+        board[rowIndex][columnIndex] = '*';
+        
+        if (searchAdjacentCells(board, word, wordPosition+1, rowIndex, columnIndex))
+            return true;
+            
+        board[rowIndex][columnIndex] = letterToSearch;
+    }
+    return false;
+    
+}
+    bool exist(vector<vector<char>>& board, string word) {
+        
+        int maxRows = board.size();
+        int maxColumns = board[0].size();
+        int firstCharPosition = 0;
+        // try every position for the first character until we find the word in the grid
+        for (int rowId = 0 ; rowId < maxRows; rowId++)
+        {
+            for (int columnId = 0 ; columnId < maxColumns; columnId++)
+            {
+               if (search(board, word, firstCharPosition, rowId,  columnId))
+                  return true;
+            }
+        }
+        return false;
+    }
+};  
