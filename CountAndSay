@@ -1,0 +1,45 @@
+class Solution {
+public:
+    string countAndSay(int n) {
+     
+     string output("");
+   
+     if (n < 1)
+      return output;
+     
+     output = "1"; 
+     if (n == 1)
+       return output;
+   
+   for(int i = 1; i < n ; i++)
+   {
+     int count = 1;
+     int value = output[0] - '0';
+     string countAndSayAtI = output;
+     output = "";
+     
+     for (uint j =1 ; j < countAndSayAtI.length(); j++)
+     {
+       if (countAndSayAtI[j-1] == countAndSayAtI[j])
+       {
+         count++;
+         value = countAndSayAtI[j] - '0';
+       }
+       else
+       {
+         output += to_string(count);
+         output += to_string(value);
+         count = 1;
+         value = countAndSayAtI[j] - '0';
+       }
+       
+     }
+     output += to_string(count);
+     output += to_string(value);
+   
+   }   
+     
+     return output;
+      
+    }
+};
