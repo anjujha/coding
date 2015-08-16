@@ -1,0 +1,31 @@
+class Solution {
+public:
+    int removeElement(vector<int>& nums, int val) {
+        
+        int n = nums.size();
+        if (n == 0)
+            return 0;
+        
+        int lastValidIndex = n-1;
+        for (int i = 0; i < n ; i++)
+        {
+            if (nums[i] == val && i <= lastValidIndex)
+            {
+                bool areSwappedNumbersEqual = nums[i] == nums[lastValidIndex] ? true: false;
+                
+                swap(nums[i], nums[lastValidIndex]);
+                lastValidIndex--;
+                
+                if (areSwappedNumbersEqual)
+                    i--;
+                
+                if (lastValidIndex < 0)
+                    return 0;
+            }
+        }
+        if (nums[lastValidIndex] == val)
+            return max(lastValidIndex,0);
+        
+        return lastValidIndex+1;
+    }
+};
