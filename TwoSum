@@ -1,0 +1,43 @@
+#include <vector>
+#include <iostream>
+#include <algorithm>
+#include <unordered_map>
+
+using namespace std;
+
+vector<int> twoSum(vector<int>& nums, int target) {
+
+  std::unordered_map<uint, uint> indexValueMap;
+  for (uint i = 0 ; i < nums.size(); i++)
+  {
+    indexValueMap[nums.at(i)]= i;
+  }
+  vector<int> indexValues;
+  for (uint i = 0 ; i < indexValueMap.size(); i++)
+  {
+    int remainingSum = target - nums.at(i) ;
+    if (indexValueMap.find(remainingSum)!=indexValueMap.end())
+    {
+      if (indexValueMap[remainingSum] != i)
+      {        
+        indexValues.push_back((indexValueMap[remainingSum])+1);        
+        indexValues.push_back((i+1));
+        sort(indexValues.begin(), indexValues.end());
+        return indexValues;
+      } 
+    }
+  }
+  return indexValues;
+}
+
+int main()
+{
+  vector<int> nums={3,2,4};
+  int target = 6;
+  vector<int> result =twoSum(nums, target);
+  for (int idx: result)
+  {
+    cout << idx << " ";
+  }
+  return 0;
+}
