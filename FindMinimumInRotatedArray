@@ -1,0 +1,30 @@
+class Solution {
+public:
+
+int findMinHelper(vector<int>& nums, int start, int end)
+{
+    if (nums[start] <= nums[end])
+        return nums[start];
+
+    if (end - start == 1 )
+    {
+        return min(nums[end], nums[start]);
+    }
+    int mid = (start + end)/2;
+    if (nums[start] > nums[mid] )
+    {
+        return findMinHelper(nums, start, mid);
+    }
+    else if(nums[end] < nums[start])
+    {
+        return findMinHelper(nums, mid, end);
+    }
+    
+}
+
+int findMin(vector<int>& nums) {
+     
+     int n = nums.size();
+     return findMinHelper(nums, 0, n-1);
+    }
+};
