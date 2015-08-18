@@ -1,0 +1,36 @@
+class Solution {
+public:
+
+void sumNumbersHelper(TreeNode* currentNode, int path, vector<int>& output)
+{
+    if (!currentNode)
+        return;
+        
+    int newPath = path*10 + currentNode->val;  
+
+    if (currentNode->left == NULL &&
+    currentNode->right == NULL)
+    {
+        output.push_back(newPath);
+        return;
+    }    
+     sumNumbersHelper(currentNode->left, newPath , output);
+     sumNumbersHelper(currentNode->right, newPath , output);
+}
+
+int sumNumbers(TreeNode* root) {
+       if (!root)
+        return 0;
+        
+        int path = 0;
+        vector<int> output;
+        sumNumbersHelper(root, path, output);
+        
+        int sum = 0;
+        for (auto v: output)
+        {
+            sum += v;
+        }
+        return sum;
+    }
+};
