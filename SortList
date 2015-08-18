@@ -1,0 +1,115 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution{
+public:
+
+// Merge 2 sorted lists
+ListNode* mergeSortedLists(ListNode* front, ListNode* rear)
+{
+    
+    if (front == NULL)
+    return rear;
+    if (rear == NULL)
+    return front;
+ 
+    ListNode* mergedListTemp = NULL;  
+    ListNode* mergedList = NULL;  
+    while (front!=NULL && rear!=NULL)
+    {
+        if (front->val < rear->val)
+        {
+            if (!mergedListTemp)
+            {
+              mergedListTemp = new ListNode(front->val);
+              mergedList = mergedListTemp;
+              front = front->next;
+            }
+            else
+            {
+              mergedListTemp->next = new ListNode(front->val);
+              front = front->next;mergedListTemp = mergedListTemp->next ;
+            }
+        }
+        else
+        {
+            if (!mergedListTemp)
+            {
+              mergedListTemp = new ListNode(rear->val);
+              mergedList = mergedListTemp;
+              rear = rear->next;
+            }
+            else
+            {
+              mergedListTemp->next = new ListNode(rear->val);
+              rear = rear->next;
+              mergedListTemp = mergedListTemp->next ;
+            }
+        }
+    }    
+    if (front)
+    {
+      mergedListTemp->next = front;
+    }
+    if (rear)
+    {
+      mergedListTemp->next = rear;
+    }
+    return mergedList;
+    
+}
+ListNode* sortListHelper(ListNode* current)
+{
+ // Base cases
+ // if list is empty
+  if (current == NULL)
+  return current;
+ 
+  // if list size is 1 
+  if (current->next == NULL)
+  return current;
+  // if list size is 2
+  if (current->next->next == NULL)
+  {
+      // list is in sorted array
+     if (current->val < current->next->val)
+     return current;
+     else
+     {
+       // swap the 2 nodes
+       ListNode* temp = current->next;
+       current->next = NULL;
+       temp->next = current;
+       return temp;
+     }
+  }
+  
+  // Split the linkedlist into two parts
+  ListNode* fast = current;
+  ListNode* slow = current;
+  ListNode* prev = NULL;    
+  while (fast && fast->next)
+  {
+      prev = slow;
+      fast = fast->next->next;
+      slow = slow->next;
+  }
+  prev->next = NULL;
+  ListNode* front = sortListHelper(current); 
+  ListNode* rear = sortListHelper(slow);    
+  return mergeSortedLists(front, rear); 
+}
+
+ListNode* sortList(ListNode* head) {
+        
+        if (head == NULL)
+        return head;
+            
+        return sortListHelper(head);
+    }
+};
