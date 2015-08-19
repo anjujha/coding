@@ -1,0 +1,113 @@
+#include <iostream>
+using namespace std;
+
+// Lower bound
+int FindKeyInLeftArray(int* array, int start, int end, int key)
+{
+  int result = -1;
+  
+  if (end < start)
+    return result;
+
+  if (start == end && array[start] == key)
+  {
+    return start;    
+  }  
+  
+  int mid = (start+end)/2;  
+  if (array[mid] == key)
+  {
+    // lower bound is at mid or left of it
+    int resultleft = FindKeyInLeftArray(array, start, mid-1, key);
+    return  resultleft == -1? mid : resultleft;
+    
+  }
+  else if (array[mid] < key)
+  {
+    //lewer bound is between mid and end
+    int resultleft = FindKeyInLeftArray(array, mid+1, end, key);
+    return  resultleft;
+  }
+  return result;
+}
+
+int FindKeyInRightArray(int* array, int start, int end, int key)
+{
+  int result = -1;
+  if (end < start)
+    return result;
+  
+  if (start == end && array[start] != key)
+  {
+    return result;    
+  }
+  if (start == end && array[start] == key)
+  {
+    return start;    
+  }  
+  
+  int mid = (start+end)/2;  
+  if (array[mid] == key)
+  {
+    // upper bound is at mid or right of it
+    int resultleft = FindKeyInRightArray(array, mid+1, end, key);
+    return  resultleft == -1? mid : resultleft;    
+  }
+  else if (array[mid] > key)
+  {
+    //upper bound is between mid and start
+    int resultleft = FindKeyInRightArray(array, start, mid-1, key);
+    return  resultleft;
+  }
+  return result;
+}
+pair<int, int> findBoundsHelper(int* array, int start, int end, int key)
+{
+  // identify whch array we need to search in
+   pair<int, int> bounds(-1,-1);
+   if (end < start)
+     return bounds;
+   int mid = (start+end)/2;
+  
+   if(array[mid] == key)
+   {
+      int low = mid;
+      int high = mid;
+      int leftArrayIndex = FindKeyInLeftArray(array, start, mid-1, key);
+      
+      if (leftArrayIndex != -1)
+      {
+        low = leftArrayIndex; 
+      }
+
+      int rightArrayIndex = FindKeyInRightArray(array, mid+1,end , key);
+
+      if (rightArrayIndex != -1)
+      {
+        high = rightArrayIndex; 
+      }
+      bounds.first = low;
+      bounds.second = high;
+  }
+  else if (array[mid] < key)
+  {    
+    return findBoundsHelper(array, mid+1, end, key);
+  }
+  else if (array[mid] > key)
+  {
+    return findBoundsHelper(array, start, mid-1, key);
+  }
+  return bounds;
+  
+}
+
+pair<int, int> findBounds(int* array, int len, int key)
+{  
+  return findBoundsHelper(array, 0, len-1, key);  
+}
+int main()
+{
+  int array[6] = {10, 10, 10, 10, 10, 10};
+  pair<int, int> op = findBounds(array, 6, 10);
+  cout << op.first << " -> "<< op.second << endl;
+}
