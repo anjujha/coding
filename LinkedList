@@ -1,0 +1,126 @@
+#include <iostream>
+#include <unordered_map>
+using namespace std;
+
+struct  Node
+{
+    int val;
+    Node* next = NULL;
+    Node(int number): val(number), next(NULL){}
+} ;
+
+class LinkedList
+{
+  Node* head;
+  public:
+  LinkedList(){}
+  void insertToTail(int value)  ;
+  void printList();
+  void removeDuplicates();
+  int findKthFromLast(int k);
+};
+
+// Insert a new node into the linked list
+void LinkedList::insertToTail(int value)
+{
+    Node* newNode = new Node(value);
+    if (!head)
+    {
+      head = newNode ;
+      return;
+    }
+    Node* current = head;
+    while (current->next)
+    {
+        current = current->next;
+    }
+    current->next = newNode;
+    return;
+}
+
+// Print the contents of the linked list
+void LinkedList::printList()
+{
+    cout << "Printing the list "<< endl;
+    Node* current = head;
+    while (current)
+    {    
+      cout << current->val ;
+      current= current->next;
+      if (current) cout <<  " -> ";
+    }
+    cout << endl;
+}
+
+// Remove duplicates from LinkedList
+void LinkedList::removeDuplicates()
+{
+    cout << "Removing duplicates" << endl;
+    if (!head)
+    return;
+
+   unordered_map<int, int> tracker;
+
+    Node* current = head;
+    Node* previous = head;
+    while (current)
+    {
+        if (tracker.find(current->val) == tracker.end())
+        {
+            tracker.insert({current->val, 1});
+            previous = current;
+            current = current->next;
+        }
+        else
+        {
+            current = current->next;
+            previous->next = current;
+        }
+    }
+    return;
+}
+
+// Find the kth element from last. k =1 means the last element
+int LinkedList::findKthFromLast(int k)
+{
+  cout << k <<"th element from last"<<endl;
+  Node* fast = head;
+  Node* slow = head;
+  int count = 0;
+  while (fast && count !=k )
+  {
+    fast = fast->next;
+    count++;
+  }
+  if (fast == NULL && count != k)
+  {
+    cout << "There are less than "<<k<<" elements in the list"<<endl;
+    return -1;
+  }
+  while (fast)
+  {
+    fast = fast->next;
+    slow = slow->next;
+  }
+  return slow->val;
+
+}
+
+int main()
+{
+
+    LinkedList* list1 = new LinkedList();
+
+    list1->insertToTail(5);
+    list1->insertToTail(7);
+    list1->insertToTail(2);
+    list1->insertToTail(2);
+    list1->insertToTail(2);
+    list1->insertToTail(9);
+
+    list1->printList();
+    list1->removeDuplicates();
+    list1->printList();
+    cout << list1->findKthFromLast(2) << endl;
+    cout << list1->findKthFromLast(5) << endl;
+}
