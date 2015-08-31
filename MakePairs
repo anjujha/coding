@@ -1,0 +1,36 @@
+// output pairs which sum up to a given target. problem from CCI
+
+#include <iostream>
+#include <vector>
+#include <utility>
+#include <unordered_map>
+using namespace std;
+
+vector < pair<int,int> > sum(vector<int> numbers, int t)
+{
+  vector < pair<int,int> > output;
+  unordered_map<int, int> m;
+  for (uint i = 0 ;  i < numbers.size(); i++)
+  {
+    int v = numbers[i];
+    if ( m.find(t-v) != m.end())      
+    {
+      pair<int, int> p = make_pair(v, t-v);
+     
+      output.push_back(p);
+    }
+    m.insert({v, 1});
+  }
+  return output;
+}
+int main() {
+ 
+  vector<int> numbers = {1, 2, 4, 5, 10 , 15};
+  int target = 6;
+  vector < pair<int,int> > p1 = sum(numbers, target);
+  for (auto p: p1)
+  cout << p.first <<" " << p.second <<endl;
+  
+  
+  return 0;
+}
