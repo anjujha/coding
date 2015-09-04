@@ -1,0 +1,20 @@
+//Given an array of integers, every element appears twice except for one. Find that single one.
+//https://leetcode.com/problems/single-number/
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+        
+        // XOR of a number by itself = 0 eg: 110 ^ 110 = 000 
+        // because all the bits are the same
+        int n = nums.size();
+        if (n < 1)
+        return 0;
+        
+        int uniqueNum = nums[0];
+        for (int i = 1; i < n; ++i)
+        {
+            uniqueNum ^= nums[i];
+        }
+        return uniqueNum;
+    }
+};
